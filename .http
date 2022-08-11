@@ -1,0 +1,26 @@
+POST http://localhost:5000/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "tlidanski@gmail.com",
+    "password": "somefancypwd"
+}
+###
+POST http://localhost:5000/contacts HTTP/1.1
+content-type: application/json
+Authorization: Bearer 
+
+{
+    "userId": 1,
+    "mobilePhone": "0898349556",
+    "homePhone": "333333",
+    "workPhone": "1111111"
+}
+
+###
+GET http://localhost:5000/contacts/0/2 HTTP/1.1
+content-type: application/json
+Authorization: Bearer 
+###
+GET http://localhost:5000/contacts/0/2 HTTP/1.1
+content-type: application/json
