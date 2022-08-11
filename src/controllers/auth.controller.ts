@@ -18,6 +18,7 @@ export class AuthController implements Controller {
 
     public initRoutes = (): void => {
         this.router.post(`${this.path}register`, this.register);
+        this.router.post(`${this.path}login`, this.login);
     }
 
     private register = async (req: Request, res: Response): Promise<Response | void> => {
@@ -35,5 +36,17 @@ export class AuthController implements Controller {
         } catch (error) {
             return res.status(400).json({msg: error});
         }
+    }
+
+    private login = async (req: Request, res: Response): Promise<Response | void> => {
+        const {email, password} = req.body;
+        const user = await this.userRepository.findOne({where: {email: email}});
+        if (user) {
+            const passwordMatch = await this.cryptoService.comparePassword(password, user.password);
+            if (passwordMatch) {
+                return res.status(200).json({token: this.jwtService.sign(user)});
+            }
+        }
+        return res.status(400).json({msg: 'Wrong credentials'});
     }
 }
