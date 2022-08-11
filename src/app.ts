@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import * as server from 'http';
 import Controller from './interfaces/controller.interface';
+import { AppDataSource } from './data-source';
 
 export default class App {
     private app: Application;
@@ -15,6 +16,7 @@ export default class App {
 
         this.setUpMiddlewares(middlewares);
         this.setUpRoutes(controllers);
+        this.setUpDatabaseConnection();
     }
 
     private setUpRoutes = (controllers: Controller[]): void => {
@@ -29,6 +31,10 @@ export default class App {
         for (const middleware of middlewares) {
             this.app.use(middleware);
         }
+    }
+
+    private setUpDatabaseConnection = async () => {
+        await AppDataSource.initialize();
     }
 
     public listen = (): void => {

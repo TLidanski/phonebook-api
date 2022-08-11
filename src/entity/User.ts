@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Contact } from './Contact';
 
 @Entity()
 export class User {
@@ -17,4 +18,7 @@ export class User {
 
     @Column()
     password: string;
+
+    @OneToOne(() => Contact, contact => contact.user)
+    contact: Contact;
 }
